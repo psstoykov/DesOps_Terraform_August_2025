@@ -82,7 +82,7 @@ resource "azurerm_app_service_source_control" "azureappsc" {
   app_id   = azurerm_linux_web_app.alwa.id
   repo_url = "https://github.com/psstoykov/AzureTasks"
   branch   = "main"
-
+use_manual_integration = true
 
 }
 
