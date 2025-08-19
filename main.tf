@@ -21,9 +21,9 @@ resource "random_integer" "ri" {
   max = 99999
 
 }
-resource "azurerm_resource_group" "arg" {
+resource "azurerm_resource_group" var.resource_group {
   name     = "AzureTasks${random_integer.ri.result}"
-  location = "Germany West Central"
+  location = var.location
 }
 
 resource "azurerm_service_plan" "asp" {
@@ -82,5 +82,6 @@ resource "azurerm_app_service_source_control" "azureappsc" {
   app_id   = azurerm_linux_web_app.alwa.id
   repo_url = "https://github.com/psstoykov/AzureTasks"
   branch   = "main"
+
 
 }
