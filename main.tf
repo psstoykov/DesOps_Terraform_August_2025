@@ -18,11 +18,11 @@ provider "azurerm" {
   features {
 
   }
-   client_id       = "dd4c15a3-1d9d-4f05-9f87-38b424fa63bc"
-   client_secret   = "wmo8Q~39yWmZoricC1SsYWQ5Qv5fdKxtTYmShaea"
-   subscription_id = "41c7c394-1733-4e9a-84c0-a39bdfd3f82b"
-   tenant_id       = "4a06d40c-e447-42be-baef-dd0421ed10bd"
-   
+  client_id       = var.client_id
+  client_secret   = var.client_secret
+  subscription_id = var.subscription_id
+  tenant_id       = var.tenant_id
+
 
 }
 
