@@ -4,9 +4,10 @@ variable "resource_group_name" {
 
 
 }
-variable "resource_group_location" {
+variable "location" {
   description = "The Azure Region where the resources will be created."
   type        = string
 
 
 }
+
