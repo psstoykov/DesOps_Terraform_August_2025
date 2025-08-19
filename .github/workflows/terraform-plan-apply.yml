@@ -12,7 +12,7 @@ env:
     ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
     TF_VAR_github_token: ${{ secrets.TOKEN_TERRAFORM }}
 
-  jobs:
+jobs:
     terraform-plan:
         name: "Terraform Plan"
         runs-on: ubuntu-latest
