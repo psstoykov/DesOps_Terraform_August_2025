@@ -59,6 +59,7 @@ resource "azurerm_linux_web_app" "alwa" {
 }
 
 resource "azurerm_mssql_server" "server" {
+  depends_on                   = [azurerm_resource_group.arg]
   name                         = "task-board-sql-${random_integer.ri.result}"
   resource_group_name          = azurerm_resource_group.arg.name
   location                     = azurerm_resource_group.arg.location
