@@ -26,16 +26,17 @@ jobs:
               with:
                   creds: ${{ secrets.AZURE_CREDENTIALS }}
 
+            - name: Setup Terraform
+              uses: hashicorp/setup-terraform@v3
+              with:
+                  terraform_version: 1.6.2
+
             - name: Terraform Format
               run: terraform fmt -check -recursive
 
             - name: Terraform Validate
               run: terraform validate
 
-            - name: Setup Terraform
-              uses: hashicorp/setup-terraform@v3
-              with:
-                  terraform_version: 1.6.2
             - name: Terraform Init
               run: terraform init
 
@@ -47,32 +48,33 @@ jobs:
               with:
                   name: terraform-plan
                   path: tfplan
-    terraform-apply:
-        name: Terraform Apply
-        needs: terraform-plan
-        runs-on: ubuntu-latest
 
-        steps:
-            - name: Checkout
-              uses: actions/checkout@v4
+        terraform-apply:
+            name: Terraform Apply
+            needs: terraform-plan
+            runs-on: ubuntu-latest
 
-            - name: Azure login
-              uses: azure/login@v2
-              with:
-                  creds: ${{ secrets.AZURE_CREDENTIALS }}
+            steps:
+                - name: Checkout
+                  uses: actions/checkout@v4
 
-            - name: Setup Terraform
-              uses: hashicorp/setup-terraform@v3
-              with:
-                  terraform_version: 1.6.2
+                - name: Azure login
+                  uses: azure/login@v2
+                  with:
+                      creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-            - name: Terraform Init
-              run: terraform init
+                - name: Setup Terraform
+                  uses: hashicorp/setup-terraform@v3
+                  with:
+                      terraform_version: 1.6.2
 
-            - name: Download Terraform Plan
-              uses: actions/download-artifact@v4
-              with:
-                  name: terraform-plan
+                - name: Terraform Init
+                  run: terraform init
 
-            - name: Terraform Apply
-              run: terraform apply -auto-approve tfplan
+                - name: Download Terraform Plan
+                  uses: actions/download-artifact@v4
+                  with:
+                      name: terraform-plan
+
+                - name: Terraform Apply
+                  run: terraform apply -auto-approve tfplan
