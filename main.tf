@@ -91,6 +91,7 @@ resource "azurerm_app_service_source_control" "azureappsc" {
   branch                 = "main"
   use_manual_integration = true
 
+  depends_on = [azurerm_app_service_source_control_token.github]
 }
 
 variable "github_token" {
