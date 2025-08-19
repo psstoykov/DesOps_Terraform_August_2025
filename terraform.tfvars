@@ -1,3 +1,4 @@
 location       = "Germany West Central"
-resource_group = "arg"
+resource_group_name = "arg"
+
 
