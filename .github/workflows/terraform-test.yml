@@ -16,11 +16,6 @@ jobs:
         runs-on: ubuntu-latest
 
         steps:
-            - name: Terraform Apply
-              run: |
-                  export TF_VAR_github_token=$TOKEN_TERRAFORM
-                  terraform apply -auto-approve
-
             # Checkout the repository to the GitHub Actions runner
             - name: Checkout
               uses: actions/checkout@v4

@@ -18,11 +18,6 @@ jobs:
         runs-on: ubuntu-latest
 
         steps:
-            - name: Terraform Apply
-              run: |
-                  export TF_VAR_github_token=$TOKEN_TERRAFORM
-                  terraform apply -auto-approve
-
             - name: Checkout the repository
               uses: actions/checkout@v4
 
@@ -50,7 +45,9 @@ jobs:
         name: Terraform Apply
         needs: terraform-plan
         runs-on: ubuntu-latest
-
+        run: |
+            export TF_VAR_github_token=$TOKEN_TERRAFORM
+            terraform apply -auto-approve
         steps:
             - name: Checkout
               uses: actions/checkout@v4
