@@ -1,68 +1,64 @@
-
-name: 'Terraform-plan-apply'
+name: "Terraform-plan-apply"
 
 on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-
+    push:
+        branches: ["main"]
+    pull_request:
 
 env:
-  ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-  ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
-  ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-  ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-
+    ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+    ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+    ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+    ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
 
 jobs:
-  terraform-plan:
-    name: 'Terraform'
-    runs-on: ubuntu-latest
+    terraform-plan:
+        name: "Terraform Plan"
+        runs-on: ubuntu-latest
 
-    steps:
-    - name: Checkout the repository
-      uses: actions/checkout@v4
+        steps:
+            - name: Checkout the repository
+              uses: actions/checkout@v4
 
-    - name: Azure login
-      uses: azure/login@v2
-      with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
- 
-    - name: Setup Terraform
-      uses: hashicorp/setup-terraform@v3
+            - name: Azure login
+              uses: azure/login@v2
+              with:
+                  creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-    - name: Terraform Init
-      run: terraform init
+            - name: Setup Terraform
+              uses: hashicorp/setup-terraform@v3
 
-    - name: Terraform Plan
-      run: terraform plan -input=false -var-file="terraform.tfvars" -out=tfplan
+            - name: Terraform Init
+              run: terraform init
 
+            - name: Terraform Plan
+              run: terraform plan -input=false -var-file="terraform.tfvars" -out=tfplan
 
-    - name: Upload Terraform Plan
-      uses: actions/upload-artifact@v4
-      with:
-        name: terraform-plan
-        path: tfplan
-        
-  terraform-apply:
-    name: Terraform Apply
-    needs: terraform-plan
-    runs-on: ubuntu-latest
+            - name: Upload Terraform Plan
+              uses: actions/upload-artifact@v4
+              with:
+                  name: terraform-plan
+                  path: tfplan
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+    terraform-apply:
+        name: Terraform Apply
+        needs: terraform-plan
+        runs-on: ubuntu-latest
 
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v3
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
 
-      - name: Terraform Init
-        run: terraform init
+            - name: Setup Terraform
+              uses: hashicorp/setup-terraform@v3
 
-      - name: Download Terraform Plan
-        uses: actions/download-artifact@v4
-        with:
-          name: terraform-plan
-        
-      - name: Terraform Apply
-        run: terraform apply -auto-approve tfplan
+            - name: Terraform Init
+              run: terraform init
+
+            - name: Download Terraform Plan
+              uses: actions/download-artifact@v4
+              with:
+                  name: terraform-plan
+
+            - name: Terraform Apply
+              run: terraform apply -auto-approve tfplan
