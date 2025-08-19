@@ -93,4 +93,13 @@ resource "azurerm_app_service_source_control" "azureappsc" {
 
 }
 
+variable "github_token" {
+  type = string
+}
+
+resource "azurerm_app_service_source_control_token" "github" {
+  token = var.github_token
+  type  = "GitHub"
+}
+
 
