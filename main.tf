@@ -21,7 +21,7 @@ resource "random_integer" "ri" {
   max = 99999
 
 }
-resource "azurerm_resource_group" var.resource_group {
+resource "azurerm_resource_group" var.resource_group_name {
   name     = "AzureTasks${random_integer.ri.result}"
   location = var.location
 }
@@ -85,3 +85,4 @@ resource "azurerm_app_service_source_control" "azureappsc" {
 
 
 }
+
